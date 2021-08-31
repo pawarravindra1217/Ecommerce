@@ -12,22 +12,22 @@ namespace API.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly IItemRepository _repo;
-        public ItemController(IItemRepository repo)
+        private readonly IGenericRepository<Item> _itemRepo;
+        public ItemController(IGenericRepository<Item> itemRepo)
         {
-            _repo = repo;
+            _itemRepo = itemRepo;
         }
         [HttpGet]
         public async Task<ActionResult<List<Item>>> GetItems()
         {
-            var Items =  await _repo.GetItemsAsync();
+            var Items =  await _itemRepo.ListAllSync();
             return Ok(Items);
         }
 
         [HttpGet("{Id}")]
         public async Task<ActionResult<Item>> GetItem(int Id)
         {
-            return await _repo.GetItemByIdAync(Id);
+            return await _itemRepo.GetByIdAync(Id);
         }
     }
 }
